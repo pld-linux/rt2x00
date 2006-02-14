@@ -1,7 +1,6 @@
 #
 # Conditional build:
 %bcond_without	dist_kernel	# allow non-distribution kernel
-%bcond_without	kernel		# don't build kernel modules
 %bcond_without	smp		# don't build SMP module
 %bcond_with	verbose		# verbose build (V=1)
 #
@@ -9,56 +8,31 @@
 %undefine	with_smp
 %endif
 #
-Summary:	Linux driver for WLAN cards based on RT2500
-Summary(pl):	Sterownik dla Linuksa do kart bezprzewodowych opartych na uk³adzie RT2500
+Summary:	Linux driver for WLAN cards based on RT2x00 chipsets
 Name:		rt2x00
 Version:	2.0.0
 %define		_subver	b3
 %define		_rel	0.%{_subver}.3
-Release:	%{_rel}
+Release:	%{_rel}@%{_kernel_ver_str}
 Group:		Base/Kernel
 License:	GPL v2
 Source0:	http://rt2x00.serialmonkey.com/%{name}-%{version}-%{_subver}.tar.gz
 # Source0-md5:	4881d742ee49d3ea12c435a91deacd41
 URL:		http://rt2x00.serialmonkey.com/
-%if %{with kernel}
 %{?with_dist_kernel:BuildRequires:	kernel-module-build >= 2.6.7}
 BuildRequires:	rpmbuild(macros) >= 1.217
-%endif
-BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
-
-%description
-A configuartion tool for WLAN cards based on RT2500.
-
-%description -l pl
-Program do konfiguracji kart bezprzewodowych opartych na uk³adzie
-RT2500.
-
-%package -n kernel-net-rt2500
-Summary:	Linux driver for WLAN cards based on RT2500
-Summary(pl):	Sterownik dla Linuksa do kart bezprzewodowych opartych na uk³adzie RT2500
-Release:	%{_rel}@%{_kernel_ver_str}
-Group:		Base/Kernel
 Requires(post,postun):	/sbin/depmod
 %if %{with dist_kernel}
 %requires_releq_kernel_up
 Requires(postun):	%releq_kernel_up
 %endif
+BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
-%description -n kernel-net-rt2500
-This is a Linux driver for WLAN cards based on RT2500.
+%description
+A configuartion tool for WLAN cards based on RT2x00 chipsets.
 
-This package contains Linux module.
-
-%description -n kernel-net-rt2500 -l pl
-Sterownik dla Linuksa do kart bezprzewodowych opartych na uk³adzie
-RT2500.
-
-Ten pakiet zawiera modu³ j±dra Linuksa.
-
-%package -n kernel-smp-net-rt2500
-Summary:	Linux SMP driver for WLAN cards based on RT2500
-Summary(pl):	Sterownik dla Linuksa SMP do kart bezprzewodowych opartych na uk³adzie RT2500
+%package -n kernel-smp-net-rt2x00
+Summary:	Linux SMP driver for WLAN cards based on RT2x00 chipsets
 Release:	%{_rel}@%{_kernel_ver_str}
 Group:		Base/Kernel
 Requires(post,postun):	/sbin/depmod
@@ -67,22 +41,15 @@ Requires(post,postun):	/sbin/depmod
 Requires(postun):	%releq_kernel_smp
 %endif
 
-%description -n kernel-smp-net-rt2500
-This is a Linux driver for WLAN cards based on RT2500.
+%description -n kernel-smp-net-rt2x00
+This is a Linux driver for WLAN cards based on RT2x00 chipsets.
 
 This package contains Linux SMP module.
-
-%description -n kernel-smp-net-rt2500 -l pl
-Sterownik dla Linuksa do kart bezprzewodowych opartych na uk³adzie
-RT2500.
-
-Ten pakiet zawiera modu³ j±dra Linuksa SMP.
 
 %prep
 %setup -q -n %{name}-%{version}-%{_subver}
 
 %build
-%if %{with kernel}
 # kernel module(s)
 for cfg in %{?with_dist_kernel:%{?with_smp:smp} up}%{!?with_dist_kernel:nondist}; do
 	if [ ! -r "%{_kernelsrcdir}/config-$cfg" ]; then
@@ -101,10 +68,8 @@ for cfg in %{?with_dist_kernel:%{?with_smp:smp} up}%{!?with_dist_kernel:nondist}
 %endif
 	ln -sf %{_kernelsrcdir}/Module.symvers-$cfg Module.symvers
 	touch include/config/MARKER
-  %{__make} -C %{_kernelsrcdir} O=$PWD prepare scripts
-	%{__make} -C %{_kernelsrcdir} clean \
-		RCS_FIND_IGNORE="-name '*.ko' -o" \
-		%{?with_verbose:V=1}
+  %{__make} -C %{_kernelsrcdir} O=$PWD scripts
+	%{__make} clean
 	%{__make} -C %{_kernelsrcdir} modules \
 %if "%{_target_base_arch}" != "%{_arch}"
                 ARCH=%{_target_base_arch} \
@@ -117,46 +82,42 @@ for cfg in %{?with_dist_kernel:%{?with_smp:smp} up}%{!?with_dist_kernel:nondist}
 	mv *.ko o-$cfg/
 done
 cd -
-%endif
 
 %install
 rm -rf $RPM_BUILD_ROOT
 
-%if %{with kernel}
 install -d $RPM_BUILD_ROOT/lib/modules/%{_kernel_ver}{,smp}/kernel/drivers/net/wireless
 for cfg in %{?with_dist_kernel:%{?with_smp:smp} up}%{!?with_dist_kernel:nondist}; do
-install o-%cfg/*.ko \
-	$RPM_BUILD_ROOT/lib/modules/%{_kernel_ver}/kernel/drivers/net/wireless/rt2500.ko
-%if %{with smp} && %{with dist_kernel}
-install rt2500-smp.ko \
-	$RPM_BUILD_ROOT/lib/modules/%{_kernel_ver}smp/kernel/drivers/net/wireless/rt2500.ko
-%endif
-cd -
-%endif
+if [ $cfg = up -o $cfg = nondist ]; then
+	ocfg=''
+else
+	ocfg=$cfg
+fi
+install o-$cfg/*.ko \
+	$RPM_BUILD_ROOT/lib/modules/%{_kernel_ver}$ocfg/kernel/drivers/net/wireless/
+done
 
 %clean
 rm -rf $RPM_BUILD_ROOT
 
-%post -n kernel-net-rt2500
+%post
 %depmod %{_kernel_ver}
 
-%postun -n kernel-net-rt2500
+%postun
 %depmod %{_kernel_ver}
 
-%post -n kernel-smp-net-rt2500
+%post -n kernel-smp-net-rt2x00
 %depmod %{_kernel_ver}smp
 
-%postun -n kernel-smp-net-rt2500
+%postun -n kernel-smp-net-rt2x00
 %depmod %{_kernel_ver}smp
 
-%if %{with kernel}
-%files -n kernel-net-rt2500
+%files
 %defattr(644,root,root,755)
 /lib/modules/%{_kernel_ver}/kernel/drivers/net/wireless/*.ko*
 
 %if %{with smp} && %{with dist_kernel}
-%files -n kernel-smp-net-rt2500
+%files -n kernel-smp-net-rt2x00
 %defattr(644,root,root,755)
 /lib/modules/%{_kernel_ver}smp/kernel/drivers/net/wireless/*.ko*
-%endif
 %endif
