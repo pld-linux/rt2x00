@@ -1,3 +1,4 @@
+# TODO: mv kernel-net-rt2x00.spec,v rt2x00.spec,v
 #
 # Conditional build:
 %bcond_without	dist_kernel	# allow non-distribution kernel
@@ -9,6 +10,7 @@
 %endif
 #
 Summary:	Linux driver for WLAN cards based on RT2x00 chipsets
+Summary(pl):	Sterownik dla Linuksa do kart WLAN opartych na uk³adach RT2x00
 Name:		rt2x00
 Version:	2.0.0
 %define		_subver	b3
@@ -31,8 +33,29 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 %description
 A configuartion tool for WLAN cards based on RT2x00 chipsets.
 
+%description -l pl
+Narzêdzie konfiguracujne do kart WLAN opartych na uk³adach RT2x00.
+
+%package -n kernel-net-rt2x00
+Summary:	Linux kernel driver for WLAN cards based on RT2x00 chipsets
+Summary(pl):	Sterownik j±dra Linuksa dla kart WLAN opartych na uk³adach RT2x00
+Release:	%{_rel}@%{_kernel_ver_str}
+Group:		Base/Kernel
+Requires(post,postun):	/sbin/depmod
+%if %{with dist_kernel}
+%requires_releq_kernel_smp
+Requires(postun):	%releq_kernel_smp
+%endif
+
+%description -n kernel-net-rt2x00
+This is a Linux driver for WLAN cards based on RT2x00 chipsets.
+
+%description -n kernel-net-rt2x00 -l pl
+Sterownik j±dra Linuksa dla kart WLAN opartych na uk³adach RT2x00.
+
 %package -n kernel-smp-net-rt2x00
-Summary:	Linux SMP driver for WLAN cards based on RT2x00 chipsets
+Summary:	Linux SMP kernel driver for WLAN cards based on RT2x00 chipsets
+Summary(pl):	Sterownik j±dra Linuksa SMP dla kart WLAN opartych na uk³adach RT2x00
 Release:	%{_rel}@%{_kernel_ver_str}
 Group:		Base/Kernel
 Requires(post,postun):	/sbin/depmod
@@ -45,6 +68,11 @@ Requires(postun):	%releq_kernel_smp
 This is a Linux driver for WLAN cards based on RT2x00 chipsets.
 
 This package contains Linux SMP module.
+
+%description -n kernel-smp-net-rt2x00 -l pl
+Sterownik j±dra Linuksa dla kart WLAN opartych na uk³adach RT2x00.
+
+Ten pakiet zawiera modu³ j±dra Linuksa SMP.
 
 %prep
 %setup -q -n %{name}-%{version}-%{_subver}
@@ -94,16 +122,16 @@ else
 	ocfg=$cfg
 fi
 install o-$cfg/*.ko \
-	$RPM_BUILD_ROOT/lib/modules/%{_kernel_ver}$ocfg/kernel/drivers/net/wireless/
+	$RPM_BUILD_ROOT/lib/modules/%{_kernel_ver}$ocfg/kernel/drivers/net/wireless
 done
 
 %clean
 rm -rf $RPM_BUILD_ROOT
 
-%post
+%post -n kernel-net-rt2x00
 %depmod %{_kernel_ver}
 
-%postun
+%postun -n kernel-net-rt2x00
 %depmod %{_kernel_ver}
 
 %post -n kernel-smp-net-rt2x00
@@ -112,7 +140,7 @@ rm -rf $RPM_BUILD_ROOT
 %postun -n kernel-smp-net-rt2x00
 %depmod %{_kernel_ver}smp
 
-%files
+%files -n kernel-net-rt2x00
 %defattr(644,root,root,755)
 /lib/modules/%{_kernel_ver}/kernel/drivers/net/wireless/*.ko*
 
