@@ -1,4 +1,3 @@
-# TODO: mv kernel-net-rt2x00.spec,v rt2x00.spec,v
 #
 # Conditional build:
 %bcond_without	dist_kernel	# allow non-distribution kernel
