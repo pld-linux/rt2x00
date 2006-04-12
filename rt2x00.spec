@@ -8,19 +8,19 @@
 %undefine	with_smp
 %endif
 #
+%define		_subver	b3
+%define		_rel	0.%{_subver}.3
 Summary:	Linux driver for WLAN cards based on RT2x00 chipsets
 Summary(pl):	Sterownik dla Linuksa do kart WLAN opartych na uk³adach RT2x00
 Name:		rt2x00
 Version:	2.0.0
-%define		_subver	b3
-%define		_rel	0.%{_subver}.3
 Release:	%{_rel}@%{_kernel_ver_str}
-Group:		Base/Kernel
 License:	GPL v2
+Group:		Base/Kernel
 Source0:	http://rt2x00.serialmonkey.com/%{name}-%{version}-%{_subver}.tar.gz
 # Source0-md5:	4881d742ee49d3ea12c435a91deacd41
 URL:		http://rt2x00.serialmonkey.com/
-%{?with_dist_kernel:BuildRequires:	kernel-module-build >= 2.6.7}
+%{?with_dist_kernel:BuildRequires:	kernel-module-build >= 3:2.6.7}
 BuildRequires:	rpmbuild(macros) >= 1.217
 Requires(post,postun):	/sbin/depmod
 %if %{with dist_kernel}
