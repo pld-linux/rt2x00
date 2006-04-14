@@ -1,0 +1,12 @@
+--- rt2x00-2.0.0-b3/rt2500usb.c~	2005-12-12 23:56:19.000000000 +0100
++++ rt2x00-2.0.0-b3/rt2500usb.c	2006-04-14 17:10:26.000000000 +0200
+@@ -1282,7 +1282,9 @@
+ #endif /* CONFIG_RT2X00_DEBUG */
+ 
+ static struct usb_driver rt2x00_usb_driver = {
++#if LINUX_VERSION_CODE < KERNEL_VERSION(2, 6, 15)
+ 	.owner		= THIS_MODULE,
++#endif /* LINUX_VERSION_CODE < KERNEL_VERSION(2, 6, 15) */
+ 	.name		= DRV_NAME,
+ 	.id_table	= rt2x00_device_usb_tbl,
+ 	.probe		= rt2x00_usb_probe,
