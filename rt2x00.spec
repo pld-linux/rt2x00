@@ -8,7 +8,7 @@
 %undefine	with_smp
 %endif
 #
-%define		_snap	2006051313
+%define		_snap	2006051505
 %define		_rel	0.%{_snap}.4
 Summary:	Linux driver for WLAN cards based on RT2x00 chipsets
 Summary(pl):	Sterownik dla Linuksa do kart WLAN opartych na uk³adach RT2x00
