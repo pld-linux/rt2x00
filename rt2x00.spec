@@ -8,8 +8,8 @@
 %undefine	with_smp
 %endif
 #
-%define		_subver	b3
-%define		_rel	0.%{_subver}.3
+%define		_snap	2006051313
+%define		_rel	0.%{_snap}.4
 Summary:	Linux driver for WLAN cards based on RT2x00 chipsets
 Summary(pl):	Sterownik dla Linuksa do kart WLAN opartych na uk³adach RT2x00
 Name:		rt2x00
@@ -17,11 +17,11 @@ Version:	2.0.0
 Release:	%{_rel}@%{_kernel_ver_str}
 License:	GPL v2
 Group:		Base/Kernel
-Source0:	http://rt2x00.serialmonkey.com/%{name}-%{version}-%{_subver}.tar.gz
-# Source0-md5:	4881d742ee49d3ea12c435a91deacd41
+Source0:	http://rt2x00.serialmonkey.com/%{name}-cvs-daily.tar.gz
+# Source0-md5:	6e35166acaf0620a22296b9f7b381378
 Patch0:		%{name}-build.patch
 URL:		http://rt2x00.serialmonkey.com/
-%{?with_dist_kernel:BuildRequires:	kernel-module-build >= 3:2.6.7}
+%{?with_dist_kernel:BuildRequires:	kernel-module-build >= 3:2.6.13}
 BuildRequires:	rpmbuild(macros) >= 1.217
 Requires(post,postun):	/sbin/depmod
 %if %{with dist_kernel}
@@ -75,8 +75,8 @@ Sterownik j±dra Linuksa dla kart WLAN opartych na uk³adach RT2x00.
 Ten pakiet zawiera modu³ j±dra Linuksa SMP.
 
 %prep
-%setup -q -n %{name}-%{version}-%{_subver}
-%patch0 -p1
+%setup -q -n %{name}-cvs-%{_snap}
+#patch0 -p1
 
 %build
 # kernel module(s)
@@ -98,8 +98,19 @@ for cfg in %{?with_dist_kernel:%{?with_smp:smp} up}%{!?with_dist_kernel:nondist}
 	ln -sf %{_kernelsrcdir}/Module.symvers-$cfg o/Module.symvers
 	touch o/include/config/MARKER
         %{__make} -C %{_kernelsrcdir} O=$PWD/o prepare scripts
-	%{__make} clean
+	%{__make} clean \
+		KERNDIR=$PWD/o 
 	%{__make} -C %{_kernelsrcdir} modules \
+		KERNDIR=$PWD/o \
+%if "%{_target_base_arch}" != "%{_arch}"
+                ARCH=%{_target_base_arch} \
+                CROSS_COMPILE=%{_target_base_cpu}-pld-linux- \
+%endif
+                HOSTCC="%{__cc}" \
+		M=$PWD/ieee80211 O=$PWD/o \
+		%{?with_verbose:V=1}
+	%{__make} -C %{_kernelsrcdir} modules \
+		KERNDIR=$PWD/o \
 %if "%{_target_base_arch}" != "%{_arch}"
                 ARCH=%{_target_base_arch} \
                 CROSS_COMPILE=%{_target_base_cpu}-pld-linux- \
@@ -108,7 +119,7 @@ for cfg in %{?with_dist_kernel:%{?with_smp:smp} up}%{!?with_dist_kernel:nondist}
 		M=$PWD O=$PWD/o \
 		%{?with_verbose:V=1}
 	mkdir o-$cfg
-	mv *.ko o-$cfg/
+	mv *.ko ieee80211/*.ko o-$cfg/
 done
 cd -
 
