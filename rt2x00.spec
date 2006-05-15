@@ -18,7 +18,7 @@ Release:	%{_rel}@%{_kernel_ver_str}
 License:	GPL v2
 Group:		Base/Kernel
 Source0:	http://rt2x00.serialmonkey.com/%{name}-cvs-daily.tar.gz
-# Source0-md5:	6e35166acaf0620a22296b9f7b381378
+# Source0-md5:	290cff92197a73882a41e8cd5e740505
 Patch0:		%{name}-build.patch
 URL:		http://rt2x00.serialmonkey.com/
 %{?with_dist_kernel:BuildRequires:	kernel-module-build >= 3:2.6.13}
