@@ -8,8 +8,8 @@
 %undefine	with_smp
 %endif
 #
-%define		_snap	2006051505
-%define		_rel	0.%{_snap}.4
+%define		_snap	2006051821
+%define		_rel	0.%{_snap}.1
 Summary:	Linux driver for WLAN cards based on RT2x00 chipsets
 Summary(pl):	Sterownik dla Linuksa do kart WLAN opartych na uk³adach RT2x00
 Name:		rt2x00
@@ -18,7 +18,7 @@ Release:	%{_rel}@%{_kernel_ver_str}
 License:	GPL v2
 Group:		Base/Kernel
 Source0:	http://rt2x00.serialmonkey.com/%{name}-cvs-daily.tar.gz
-# Source0-md5:	290cff92197a73882a41e8cd5e740505
+# Source0-md5:	e2d33df49341d438a21112e8ec5d5d48
 Patch0:		%{name}-build.patch
 URL:		http://rt2x00.serialmonkey.com/
 %{?with_dist_kernel:BuildRequires:	kernel-module-build >= 3:2.6.13}
