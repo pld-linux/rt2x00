@@ -8,7 +8,7 @@
 %undefine	with_smp
 %endif
 #
-%define		_snap	2006051821
+%define		_snap	2006053115
 %define		_rel	0.%{_snap}.1
 Summary:	Linux driver for WLAN cards based on RT2x00 chipsets
 Summary(pl):	Sterownik dla Linuksa do kart WLAN opartych na uk³adach RT2x00
@@ -18,8 +18,8 @@ Release:	%{_rel}@%{_kernel_ver_str}
 License:	GPL v2
 Group:		Base/Kernel
 Source0:	http://rt2x00.serialmonkey.com/%{name}-cvs-daily.tar.gz
-# Source0-md5:	e2d33df49341d438a21112e8ec5d5d48
-Patch0:		%{name}-build.patch
+# Source0-md5:	f6f735bd07ab3f322296fdfeacdcf0e9
+Patch0:		%{name}-config.patch
 URL:		http://rt2x00.serialmonkey.com/
 %{?with_dist_kernel:BuildRequires:	kernel-module-build >= 3:2.6.13}
 BuildRequires:	rpmbuild(macros) >= 1.217
@@ -76,7 +76,7 @@ Ten pakiet zawiera modu³ j±dra Linuksa SMP.
 
 %prep
 %setup -q -n %{name}-cvs-%{_snap}
-#patch0 -p1
+%patch0 -p1
 
 %build
 # kernel module(s)
@@ -102,15 +102,7 @@ for cfg in %{?with_dist_kernel:%{?with_smp:smp} up}%{!?with_dist_kernel:nondist}
 		KERNDIR=$PWD/o 
 	%{__make} -C %{_kernelsrcdir} modules \
 		KERNDIR=$PWD/o \
-%if "%{_target_base_arch}" != "%{_arch}"
-                ARCH=%{_target_base_arch} \
-                CROSS_COMPILE=%{_target_base_cpu}-pld-linux- \
-%endif
-                HOSTCC="%{__cc}" \
-		M=$PWD/ieee80211 O=$PWD/o \
-		%{?with_verbose:V=1}
-	%{__make} -C %{_kernelsrcdir} modules \
-		KERNDIR=$PWD/o \
+		SUBDIRS=$PWD \
 %if "%{_target_base_arch}" != "%{_arch}"
                 ARCH=%{_target_base_arch} \
                 CROSS_COMPILE=%{_target_base_cpu}-pld-linux- \
@@ -119,7 +111,7 @@ for cfg in %{?with_dist_kernel:%{?with_smp:smp} up}%{!?with_dist_kernel:nondist}
 		M=$PWD O=$PWD/o \
 		%{?with_verbose:V=1}
 	mkdir o-$cfg
-	mv *.ko ieee80211/*.ko o-$cfg/
+	mv *.ko o-$cfg/
 done
 cd -
 
