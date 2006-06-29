@@ -1,5 +1,5 @@
---- rt2x00-cvs-2006053115/config.wiget	2006-06-01 01:12:31.000000000 +0200
-+++ rt2x00-cvs-2006053115/config	2006-06-01 01:13:24.000000000 +0200
+--- rt2x00-cvs-2006062812/config.orig	2006-06-20 10:27:03.000000000 +0200
++++ rt2x00-cvs-2006062812/config	2006-06-28 22:22:58.965636750 +0200
 @@ -15,7 +15,7 @@
  CONFIG_RT2400PCI_ASM=n
  # Enable rt2400pci support for hardware button
@@ -27,13 +27,12 @@
  
  #
  # RT73 USB support
-@@ -83,6 +83,6 @@
+@@ -83,7 +83,7 @@
  #
  
  # Enable radiobtn support
 -CONFIG_RADIOBTN=n
 +CONFIG_RADIOBTN=y
- # Enable dscape radiobtn asm file creation
--CONFIG_RADIOBTN_ASM=n
-\ Brak znaku nowej linii na końcu pliku
-+CONFIG_RADIOBTN_ASM=n
+ # Enable radiobtn asm file creation
+ CONFIG_RADIOBTN_ASM=n
+ 
