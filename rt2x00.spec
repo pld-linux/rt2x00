@@ -20,7 +20,6 @@ Group:		Base/Kernel
 Source0:	http://rt2x00.serialmonkey.com/%{name}-cvs-daily.tar.gz
 # Source0-md5:	b4824a746e0dfd9112683edca73578b4
 Patch0:		%{name}-config.patch
-Patch1:		%{name}-2.6.14.patch
 URL:		http://rt2x00.serialmonkey.com/
 %{?with_dist_kernel:BuildRequires:	kernel-module-build >= 3:2.6.13}
 BuildRequires:	rpmbuild(macros) >= 1.217
@@ -78,10 +77,6 @@ Ten pakiet zawiera modu³ j±dra Linuksa SMP.
 %prep
 %setup -q -n %{name}-cvs-%{_snap}
 %patch0 -p1
-
-%if 0%(if [[ "%{_kernel_ver}" < 2.6.15 ]]; then echo 1; fi)
-%patch1 -p1
-%endif
 
 %build
 # kernel module(s)
