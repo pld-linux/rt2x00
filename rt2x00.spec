@@ -8,7 +8,7 @@
 %undefine	with_smp
 %endif
 #
-%define		_snap	2006062902
+%define		_snap	2006081013
 %define		_rel	0.%{_snap}.1
 Summary:	Linux driver for WLAN cards based on RT2x00 chipsets
 Summary(pl):	Sterownik dla Linuksa do kart WLAN opartych na uk³adach RT2x00
@@ -18,10 +18,10 @@ Release:	%{_rel}@%{_kernel_ver_str}
 License:	GPL v2
 Group:		Base/Kernel
 Source0:	http://rt2x00.serialmonkey.com/%{name}-cvs-daily.tar.gz
-# Source0-md5:	b4824a746e0dfd9112683edca73578b4
+# Source0-md5:	af56963a5ea5e741b214e484df184adf
 Patch0:		%{name}-config.patch
 URL:		http://rt2x00.serialmonkey.com/
-%{?with_dist_kernel:BuildRequires:	kernel-module-build >= 3:2.6.13}
+%{?with_dist_kernel:BuildRequires:	kernel-module-build >= 3:2.6.17}
 BuildRequires:	rpmbuild(macros) >= 1.217
 Requires(post,postun):	/sbin/depmod
 %if %{with dist_kernel}
@@ -100,6 +100,7 @@ for cfg in %{?with_dist_kernel:%{?with_smp:smp} up}%{!?with_dist_kernel:nondist}
         %{__make} -C %{_kernelsrcdir} O=$PWD/o prepare scripts
 	%{__make} clean \
 		KERNDIR=$PWD/o 
+	./rt2x00_config.sh rt2x00_config.h
 	%{__make} -C %{_kernelsrcdir} modules \
 		KERNDIR=$PWD/o \
 		SUBDIRS=$PWD \
