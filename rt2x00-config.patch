@@ -1,9 +1,9 @@
---- rt2x00-cvs-2006062812/config.orig	2006-06-20 10:27:03.000000000 +0200
-+++ rt2x00-cvs-2006062812/config	2006-06-28 22:22:58.965636750 +0200
+--- rt2x00-cvs-2006081007/config~	2006-08-01 13:18:16.000000000 +0200
++++ rt2x00-cvs-2006081007/config	2006-08-10 16:21:49.867578750 +0200
 @@ -15,7 +15,7 @@
  CONFIG_RT2400PCI_ASM=n
  # Enable rt2400pci support for hardware button
- # Requires radiobtn to be enabled
+ # Requires rfkill to be enabled
 -CONFIG_RT2400PCI_BUTTON=n
 +CONFIG_RT2400PCI_BUTTON=y
  
@@ -12,7 +12,7 @@
 @@ -29,7 +29,7 @@
  CONFIG_RT2500PCI_ASM=n
  # Enable rt2500pci support for hardware button
- # Requires radiobtn to be enabled
+ # Requires rfkill to be enabled
 -CONFIG_RT2500PCI_BUTTON=n
 +CONFIG_RT2500PCI_BUTTON=y
  
@@ -21,18 +21,17 @@
 @@ -54,7 +54,7 @@
  CONFIG_RT61PCI_ASM=n
  # Enable rt61pci support for hardware button
- # Requires radiobtn to be enabled
+ # Requires rfkill to be enabled
 -CONFIG_RT61PCI_BUTTON=n
 +CONFIG_RT61PCI_BUTTON=y
  
  #
  # RT73 USB support
-@@ -83,7 +83,7 @@
+@@ -92,6 +92,6 @@
  #
  
- # Enable radiobtn support
--CONFIG_RADIOBTN=n
-+CONFIG_RADIOBTN=y
- # Enable radiobtn asm file creation
- CONFIG_RADIOBTN_ASM=n
- 
+ # Enable rfkill support
+-CONFIG_RFKILL=n
++CONFIG_RFKILL=y
+ # Enable rfkill asm file creation
+ CONFIG_RFKILL_ASM=n
