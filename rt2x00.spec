@@ -89,15 +89,15 @@ for cfg in %{?with_dist_kernel:%{?with_smp:smp} up}%{!?with_dist_kernel:nondist}
 	ln -sf %{_kernelsrcdir}/config-$cfg o/.config
 	ln -sf %{_kernelsrcdir}/include/linux/autoconf-$cfg.h o/include/linux/autoconf.h
 %ifarch ppc ppc64
-        install -d o/include/asm
-        [ ! -d %{_kernelsrcdir}/include/asm-powerpc ] || ln -sf %{_kernelsrcdir}/include/asm-powerpc/* o/include/asm
-        [ ! -d %{_kernelsrcdir}/include/asm-%{_target_base_arch}/ ] || ln -snf %{_kernelsrcdir}/include/asm-%{_target_base_arch} o/include/asm
+	install -d o/include/asm
+	[ ! -d %{_kernelsrcdir}/include/asm-powerpc ] || ln -sf %{_kernelsrcdir}/include/asm-powerpc/* o/include/asm
+	[ ! -d %{_kernelsrcdir}/include/asm-%{_target_base_arch}/ ] || ln -snf %{_kernelsrcdir}/include/asm-%{_target_base_arch} o/include/asm
 %else
-        ln -sf %{_kernelsrcdir}/include/asm-%{_target_base_arch} o/include/asm
+	ln -sf %{_kernelsrcdir}/include/asm-%{_target_base_arch} o/include/asm
 %endif
 	ln -sf %{_kernelsrcdir}/Module.symvers-$cfg o/Module.symvers
 	touch o/include/config/MARKER
-        %{__make} -C %{_kernelsrcdir} O=$PWD/o prepare scripts
+	%{__make} -C %{_kernelsrcdir} O=$PWD/o prepare scripts
 	%{__make} clean \
 		KERNDIR=$PWD/o 
 	./rt2x00_config.sh rt2x00_config.h
@@ -105,10 +105,10 @@ for cfg in %{?with_dist_kernel:%{?with_smp:smp} up}%{!?with_dist_kernel:nondist}
 		KERNDIR=$PWD/o \
 		SUBDIRS=$PWD \
 %if "%{_target_base_arch}" != "%{_arch}"
-                ARCH=%{_target_base_arch} \
-                CROSS_COMPILE=%{_target_base_cpu}-pld-linux- \
+		ARCH=%{_target_base_arch} \
+		CROSS_COMPILE=%{_target_base_cpu}-pld-linux- \
 %endif
-                HOSTCC="%{__cc}" \
+		HOSTCC="%{__cc}" \
 		M=$PWD O=$PWD/o \
 		%{?with_verbose:V=1}
 	mkdir o-$cfg
