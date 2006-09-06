@@ -97,7 +97,7 @@ for cfg in %{?with_dist_kernel:%{?with_smp:smp} up}%{!?with_dist_kernel:nondist}
 %endif
 	ln -sf %{_kernelsrcdir}/Module.symvers-$cfg o/Module.symvers
 	touch o/include/config/MARKER
-	%{__make} -C %{_kernelsrcdir} O=$PWD/o prepare scripts
+	%{__make} -j1 -C %{_kernelsrcdir} O=$PWD/o prepare scripts
 	%{__make} clean \
 		KERNDIR=$PWD/o 
 	./rt2x00_config.sh rt2x00_config.h
