@@ -1,0 +1,23 @@
+diff -Nur rt2x00-cvs-2006082007.orig/Makefile rt2x00-cvs-2006082007.Makefile/Makefile
+--- rt2x00-cvs-2006082007.orig/Makefile	2006-08-01 15:53:35.000000000 +0000
++++ rt2x00-cvs-2006082007.Makefile/Makefile	2006-11-13 17:53:35.000000000 +0000
+@@ -23,7 +23,7 @@
+ # Set the enviroment variables.
+ #
+ ifndef SUBDIRS
+-	SUBDIRS=$(shell pwd)
++	SUBDIRS=$(M)
+ endif
+ 
+ ifdef KERNDIR
+@@ -51,8 +51,8 @@
+ #
+ # Include kernel and rt2x00 config.
+ #
+-include $(KERNEL_SOURCES)/.config
+-include $(SUBDIRS)/config
++include $(SYSOUT)/.config
++include $(M)/config
+ 
+ #
+ # Determine if and with what options the dscape stack should be build
