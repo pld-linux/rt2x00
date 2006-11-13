@@ -1,0 +1,5 @@
+- updated to 2006051313 cvs snapshot
+- build.patch not needed now
+  NOTE: this uses (and provides) Devicescape IEEE80211 stack.
+      You can't set some parameters (like keys) using standard
+      wireless-tools package.
