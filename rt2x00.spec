@@ -23,7 +23,7 @@ Patch0:		%{name}-config.patch
 Patch1:		%{name}-Makefile.patch
 URL:		http://rt2x00.serialmonkey.com/
 %{?with_dist_kernel:BuildRequires:	kernel%{_alt_kernel}-module-build >= 3:2.6.17}
-BuildRequires:	rpmbuild(macros) >= 1.326
+BuildRequires:	rpmbuild(macros) >= 1.330
 Requires(post,postun):	/sbin/depmod
 %if %{with dist_kernel}
 %requires_releq_kernel_up
