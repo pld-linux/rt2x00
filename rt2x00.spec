@@ -11,7 +11,7 @@
 %define		_snap	2006082007
 %define		_rel	0.%{_snap}.1
 Summary:	Linux driver for WLAN cards based on RT2x00 chipsets
-Summary(pl):	Sterownik dla Linuksa do kart WLAN opartych na uk³adach RT2x00
+Summary(pl.UTF-8):   Sterownik dla Linuksa do kart WLAN opartych na ukÅ‚adach RT2x00
 Name:		rt2x00
 Version:	2.0.0
 Release:	%{_rel}@%{_kernel_ver_str}
@@ -36,12 +36,12 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 %description
 A configuartion tool for WLAN cards based on RT2x00 chipsets.
 
-%description -l pl
-Narzêdzie konfiguracujne do kart WLAN opartych na uk³adach RT2x00.
+%description -l pl.UTF-8
+NarzÄ™dzie konfiguracujne do kart WLAN opartych na ukÅ‚adach RT2x00.
 
 %package -n kernel%{_alt_kernel}-net-rt2x00
 Summary:	Linux kernel driver for WLAN cards based on RT2x00 chipsets
-Summary(pl):	Sterownik j±dra Linuksa dla kart WLAN opartych na uk³adach RT2x00
+Summary(pl.UTF-8):   Sterownik jÄ…dra Linuksa dla kart WLAN opartych na ukÅ‚adach RT2x00
 Release:	%{_rel}@%{_kernel_ver_str}
 Group:		Base/Kernel
 Requires(post,postun):	/sbin/depmod
@@ -53,12 +53,12 @@ Requires(postun):	%releq_kernel_up
 %description -n kernel%{_alt_kernel}-net-rt2x00
 This is a Linux driver for WLAN cards based on RT2x00 chipsets.
 
-%description -n kernel%{_alt_kernel}-net-rt2x00 -l pl
-Sterownik j±dra Linuksa dla kart WLAN opartych na uk³adach RT2x00.
+%description -n kernel%{_alt_kernel}-net-rt2x00 -l pl.UTF-8
+Sterownik jÄ…dra Linuksa dla kart WLAN opartych na ukÅ‚adach RT2x00.
 
 %package -n kernel%{_alt_kernel}-smp-net-rt2x00
 Summary:	Linux SMP kernel driver for WLAN cards based on RT2x00 chipsets
-Summary(pl):	Sterownik j±dra Linuksa SMP dla kart WLAN opartych na uk³adach RT2x00
+Summary(pl.UTF-8):   Sterownik jÄ…dra Linuksa SMP dla kart WLAN opartych na ukÅ‚adach RT2x00
 Release:	%{_rel}@%{_kernel_ver_str}
 Group:		Base/Kernel
 Requires(post,postun):	/sbin/depmod
@@ -72,10 +72,10 @@ This is a Linux driver for WLAN cards based on RT2x00 chipsets.
 
 This package contains Linux SMP module.
 
-%description -n kernel%{_alt_kernel}-smp-net-rt2x00 -l pl
-Sterownik j±dra Linuksa dla kart WLAN opartych na uk³adach RT2x00.
+%description -n kernel%{_alt_kernel}-smp-net-rt2x00 -l pl.UTF-8
+Sterownik jÄ…dra Linuksa dla kart WLAN opartych na ukÅ‚adach RT2x00.
 
-Ten pakiet zawiera modu³ j±dra Linuksa SMP.
+Ten pakiet zawiera moduÅ‚ jÄ…dra Linuksa SMP.
 
 %prep
 %setup -q -n %{name}-cvs-%{_snap}
