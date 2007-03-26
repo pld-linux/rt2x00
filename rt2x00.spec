@@ -1,15 +1,13 @@
 #
 # Conditional build:
 %bcond_without	dist_kernel	# allow non-distribution kernel
-%bcond_without	smp		# don't build SMP module
-%bcond_without	up		# don't build UP module
 %bcond_with	verbose		# verbose build (V=1)
 #
 %ifarch sparc
 %undefine	with_smp
 %endif
 #
-%define		_snap	2007032305
+%define		_snap	2007032609
 %define		_rel	0.%{_snap}.1
 Summary:	Linux driver for WLAN cards based on RT2x00 chipsets
 Summary(pl.UTF-8):	Sterownik dla Linuksa do kart WLAN opartych na uk³adach RT2x00
@@ -19,7 +17,7 @@ Release:	%{_rel}@%{_kernel_ver_str}
 License:	GPL v2
 Group:		Base/Kernel
 Source0:	http://rt2x00.serialmonkey.com/%{name}-cvs-daily.tar.gz
-# Source0-md5:	a9bd877e45aed1f811afbfbc6811c469
+# Source0-md5:	d36a0115f49b7b7f93b937920e4917ee
 Patch0:		%{name}-config.patch
 Patch1:		%{name}-Makefile.patch
 URL:		http://rt2x00.serialmonkey.com/
@@ -27,8 +25,8 @@ URL:		http://rt2x00.serialmonkey.com/
 BuildRequires:	rpmbuild(macros) >= 1.330
 Requires(post,postun):	/sbin/depmod
 %if %{with dist_kernel}
-%requires_releq_kernel_up
-Requires(postun):	%releq_kernel_up
+%requires_releq_kernel
+Requires(postun):	%releq_kernel
 %endif
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -47,8 +45,8 @@ Release:	%{_rel}@%{_kernel_ver_str}
 Group:		Base/Kernel
 Requires(post,postun):	/sbin/depmod
 %if %{with dist_kernel}
-%requires_releq_kernel_up
-Requires(postun):	%releq_kernel_up
+%requires_releq_kernel
+Requires(postun):	%releq_kernel
 %endif
 
 %description -n kernel%{_alt_kernel}-net-rt2x00
@@ -56,27 +54,6 @@ This is a Linux driver for WLAN cards based on RT2x00 chipsets.
 
 %description -n kernel%{_alt_kernel}-net-rt2x00 -l pl.UTF-8
 Sterownik j±dra Linuksa dla kart WLAN opartych na uk³adach RT2x00.
-
-%package -n kernel%{_alt_kernel}-smp-net-rt2x00
-Summary:	Linux SMP kernel driver for WLAN cards based on RT2x00 chipsets
-Summary(pl.UTF-8):	Sterownik j±dra Linuksa SMP dla kart WLAN opartych na uk³adach RT2x00
-Release:	%{_rel}@%{_kernel_ver_str}
-Group:		Base/Kernel
-Requires(post,postun):	/sbin/depmod
-%if %{with dist_kernel}
-%requires_releq_kernel_smp
-Requires(postun):	%releq_kernel_smp
-%endif
-
-%description -n kernel%{_alt_kernel}-smp-net-rt2x00
-This is a Linux driver for WLAN cards based on RT2x00 chipsets.
-
-This package contains Linux SMP module.
-
-%description -n kernel%{_alt_kernel}-smp-net-rt2x00 -l pl.UTF-8
-Sterownik j±dra Linuksa dla kart WLAN opartych na uk³adach RT2x00.
-
-Ten pakiet zawiera modu³ j±dra Linuksa SMP.
 
 %prep
 %setup -q -n %{name}-cvs-%{_snap}
@@ -101,18 +78,6 @@ rm -rf $RPM_BUILD_ROOT
 %postun -n kernel%{_alt_kernel}-net-rt2x00
 %depmod %{_kernel_ver}
 
-%post -n kernel%{_alt_kernel}-smp-net-rt2x00
-%depmod %{_kernel_ver}smp
-
-%postun -n kernel%{_alt_kernel}-smp-net-rt2x00
-%depmod %{_kernel_ver}smp
-
 %files -n kernel%{_alt_kernel}-net-rt2x00
 %defattr(644,root,root,755)
 /lib/modules/%{_kernel_ver}/kernel/drivers/net/wireless/*.ko*
-
-%if %{with smp} && %{with dist_kernel}
-%files -n kernel%{_alt_kernel}-smp-net-rt2x00
-%defattr(644,root,root,755)
-/lib/modules/%{_kernel_ver}smp/kernel/drivers/net/wireless/*.ko*
-%endif
