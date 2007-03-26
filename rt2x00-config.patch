@@ -1,33 +1,30 @@
---- rt2x00-cvs-2006081007/config~	2006-08-01 13:18:16.000000000 +0200
-+++ rt2x00-cvs-2006081007/config	2006-08-10 16:21:49.867578750 +0200
-@@ -15,7 +15,7 @@
- CONFIG_RT2400PCI_ASM=n
- # Enable rt2400pci support for hardware button
- # Requires rfkill to be enabled
+--- rt2x00-cvs-2007031214/config.orig	2007-03-02 19:31:20.000000000 +0100
++++ rt2x00-cvs-2007031214/config	2007-03-12 20:39:02.461201356 +0100
+@@ -22,12 +22,12 @@
+ # Enable rt2400pci support
+ CONFIG_RT2400PCI=y
+ # Enable rt2400pci hardware button support (requires rfkill)
 -CONFIG_RT2400PCI_BUTTON=n
 +CONFIG_RT2400PCI_BUTTON=y
  
- #
- # RT2500 PCI support
-@@ -29,7 +29,7 @@
- CONFIG_RT2500PCI_ASM=n
- # Enable rt2500pci support for hardware button
- # Requires rfkill to be enabled
+ # Enable rt2500pci support
+ CONFIG_RT2500PCI=y
+ # Enable rt2500pci hardware button support (requires rfkill)
 -CONFIG_RT2500PCI_BUTTON=n
 +CONFIG_RT2500PCI_BUTTON=y
  
- #
- # RT2500 USB support
-@@ -54,7 +54,7 @@
- CONFIG_RT61PCI_ASM=n
- # Enable rt61pci support for hardware button
- # Requires rfkill to be enabled
+ # Enable rt2500usb support
+ CONFIG_RT2500USB=y
+@@ -35,7 +35,7 @@
+ # Enable rt61pci support
+ CONFIG_RT61PCI=y
+ # Enable rt61pci hardware button support (requires rfkill)
 -CONFIG_RT61PCI_BUTTON=n
 +CONFIG_RT61PCI_BUTTON=y
  
- #
- # RT73 USB support
-@@ -92,6 +92,6 @@
+ # Enable rt73usb support
+ CONFIG_RT73USB=y
+@@ -74,6 +74,6 @@
  #
  
  # Enable rfkill support
