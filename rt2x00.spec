@@ -10,7 +10,7 @@
 %define		_snap	2007032610
 %define		_rel	0.%{_snap}.1
 Summary:	Linux driver for WLAN cards based on RT2x00 chipsets
-Summary(pl.UTF-8):	Sterownik dla Linuksa do kart WLAN opartych na uk³adach RT2x00
+Summary(pl.UTF-8):	Sterownik dla Linuksa do kart WLAN opartych na ukÅ‚adach RT2x00
 Name:		rt2x00
 Version:	2.0.0
 Release:	%{_rel}@%{_kernel_ver_str}
@@ -36,11 +36,11 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 A configuartion tool for WLAN cards based on RT2x00 chipsets.
 
 %description -l pl.UTF-8
-Narzêdzie konfiguracujne do kart WLAN opartych na uk³adach RT2x00.
+NarzÄ™dzie konfiguracujne do kart WLAN opartych na ukÅ‚adach RT2x00.
 
 %package -n kernel%{_alt_kernel}-net-rt2x00
 Summary:	Linux kernel driver for WLAN cards based on RT2x00 chipsets
-Summary(pl.UTF-8):	Sterownik j±dra Linuksa dla kart WLAN opartych na uk³adach RT2x00
+Summary(pl.UTF-8):	Sterownik jÄ…dra Linuksa dla kart WLAN opartych na ukÅ‚adach RT2x00
 Release:	%{_rel}@%{_kernel_ver_str}
 Group:		Base/Kernel
 Requires(post,postun):	/sbin/depmod
@@ -53,7 +53,7 @@ Requires(postun):	%releq_kernel
 This is a Linux driver for WLAN cards based on RT2x00 chipsets.
 
 %description -n kernel%{_alt_kernel}-net-rt2x00 -l pl.UTF-8
-Sterownik j±dra Linuksa dla kart WLAN opartych na uk³adach RT2x00.
+Sterownik jÄ…dra Linuksa dla kart WLAN opartych na ukÅ‚adach RT2x00.
 
 %prep
 %setup -q -n %{name}-cvs-%{_snap}
